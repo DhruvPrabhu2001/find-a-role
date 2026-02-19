@@ -1,6 +1,6 @@
 # 🕵️ Job Application Tracking System
 
-A smart, semi-automated tool to track and discover job opportunities. It aggregates listings from major job boards (LinkedIn, StepStone, Indeed, etc.) using Google Custom Search, scores them based on your personalized profile, and organizes them in Google Sheets. You get a daily summary via Telegram.
+A smart, semi-automated tool to track and discover job opportunities. It aggregates listings from known job boards (LinkedIn, StepStone, Indeed, etc.) using Google Custom Search, scores them based on your personalized profile, and organizes them in Google Sheets. You get a daily summary via Telegram.
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
@@ -48,14 +48,15 @@ Follow these steps to get the system running in about 20-30 minutes.
 2.  Click **Add**.
 3.  **Name**: "Job Search".
 4.  **What to search**:
-    -   Google changed the UI recently. You *must* add at least one specific site to create the engine initially.
-    -   Enter: `training.google.com` (or any dummy site).
-    -   Click **Create**.
-5.  **Enable "Search the entire web"**:
-    -   Click on the search engine you just created to open the **Control Panel**.
-    -   In the **Overview** (or "Basics") tab, look for **"Search the entire web"**.
-    -   **Toggle it ON**.
-    -   *(Optional)* You can now delete the dummy site (`training.google.com`) from the list below if you wish.
+    -   Select **"Search specific sites or pages"**.
+    -   Add the following domains one by one (or as `*.linkedin.com`):
+        -   `*.linkedin.com/jobs`
+        -   `*.indeed.de`
+        -   `*.stepstone.de`
+        -   `*.naukri.com`
+        -   `*.wellfound.com`
+    -   *Note: Free engines created after Jan 2026 are limited to specific sites (max 50). This is fine for our use case.*
+5.  Click **Create**.
 6.  Copy the **Search Engine ID (CX)**. (You will need it as `GOOGLE_CX`).
 
 ### Phase 3: Google Sheets & Service Account
