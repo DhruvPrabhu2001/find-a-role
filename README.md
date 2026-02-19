@@ -9,7 +9,7 @@ A smart, semi-automated tool to track and discover job opportunities. It aggrega
 
 -   **Legal & Compliant**: Uses **Google Custom Search API** to find jobs without scraping or violating Terms of Service.
 -   **Configurable Profile**: meaningful configuration via `src/profile.yaml`. Define your target roles, skills, and locations easily.
--   **Smart Scoring**: Automatically scores jobs (0-100) based on your skills ("Java", "Spring Boot"), experience level, and visa sponsorship.
+-   **Smart Scoring**: Scores jobs based on your skills ("Java", "Spring Boot"), experience level, and visa sponsorship.
 -   **Auto-Filtering**: Filters out irrelevant roles (e.g., "Senior", "Lead", "Principal") to keep your feed clean.
 -   **Data Storage**: Saves all findings to **Google Sheets**, handling deduplication automatically.
 -   **Daily Notifications**: Sends a concise summary of the top-scored jobs to your **Telegram**.
@@ -47,9 +47,15 @@ Follow these steps to get the system running in about 20-30 minutes.
 1.  Go to [Programmable Search Engine](https://programmablesearchengine.google.com/).
 2.  Click **Add**.
 3.  **Name**: "Job Search".
-4.  **What to search**: Select **"Search the entire web"**.
-    -   *Note: We will restrict the search to specific sites (LinkedIn, Indeed, etc.) via our code queries, so "entire web" gives us the flexibility.*
-5.  Click **Create**.
+4.  **What to search**:
+    -   Google changed the UI recently. You *must* add at least one specific site to create the engine initially.
+    -   Enter: `training.google.com` (or any dummy site).
+    -   Click **Create**.
+5.  **Enable "Search the entire web"**:
+    -   Click on the search engine you just created to open the **Control Panel**.
+    -   In the **Overview** (or "Basics") tab, look for **"Search the entire web"**.
+    -   **Toggle it ON**.
+    -   *(Optional)* You can now delete the dummy site (`training.google.com`) from the list below if you wish.
 6.  Copy the **Search Engine ID (CX)**. (You will need it as `GOOGLE_CX`).
 
 ### Phase 3: Google Sheets & Service Account
