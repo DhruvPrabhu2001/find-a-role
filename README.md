@@ -1,6 +1,6 @@
 # 🕵️ Job Application Tracking System
 
-A smart, semi-automated tool to track and discover job opportunities. It aggregates listings from known job boards (LinkedIn, StepStone, Indeed, etc.) using Google Custom Search, scores them based on your personalized profile, and organizes them in Google Sheets. You get a daily summary via Telegram.
+A smart, semi-automated tool to track and discover job opportunities. It aggregates listings from known job boards (LinkedIn, StepStone, Indeed, etc.) using Google Custom Search, scores them based on your personalized profile, and organizes them in Google Sheets. You get a daily summary via **WhatsApp**.
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
@@ -12,7 +12,7 @@ A smart, semi-automated tool to track and discover job opportunities. It aggrega
 -   **Smart Scoring**: Scores jobs based on your skills ("Java", "Spring Boot"), experience level, and visa sponsorship.
 -   **Auto-Filtering**: Filters out irrelevant roles (e.g., "Senior", "Lead", "Principal") to keep your feed clean.
 -   **Data Storage**: Saves all findings to **Google Sheets**, handling deduplication automatically.
--   **Daily Notifications**: Sends a concise summary of the top-scored jobs to your **Telegram**.
+-   **Daily Notifications**: Sends a concise summary of the top-scored jobs to your **WhatsApp**.
 -   **Automation Ready**: Includes a **GitHub Actions** workflow to run daily at 08:00 UTC for free.
 
 ---
@@ -22,7 +22,7 @@ A smart, semi-automated tool to track and discover job opportunities. It aggrega
 Before you start, ensure you have:
 1.  **Python 3.10+** installed.
 2.  A **Google Cloud Account** (Free tier is sufficient).
-3.  A **Telegram Account**.
+3.  A **WhatsApp Account**.
 
 ---
 
@@ -49,13 +49,12 @@ Follow these steps to get the system running in about 20-30 minutes.
 3.  **Name**: "Job Search".
 4.  **What to search**:
     -   Select **"Search specific sites or pages"**.
-    -   Add the following domains one by one (or as `*.linkedin.com`):
+    -   Add the following domains manually:
         -   `*.linkedin.com/jobs`
         -   `*.indeed.de`
         -   `*.stepstone.de`
         -   `*.naukri.com`
         -   `*.wellfound.com`
-    -   *Note: Free engines created after Jan 2026 are limited to specific sites (max 50). This is fine for our use case.*
 5.  Click **Create**.
 6.  Copy the **Search Engine ID (CX)**. (You will need it as `GOOGLE_CX`).
 
@@ -72,15 +71,12 @@ Follow these steps to get the system running in about 20-30 minutes.
     -   Create a new blank sheet. Name it **"Job Application Tracker"**.
     -   **Important**: Click **Share** (top right) and paste the **client_email** found inside your `credentials.json` file. Give it **Editor** access.
 
-### Phase 4: Telegram Bot Setup
-1.  Open Telegram and search for **@BotFather**.
-2.  Send the command `/newbot`.
-3.  Follow instructions to name your bot.
-4.  Copy the **HTTP API Token**. (You will need it as `TELEGRAM_BOT_TOKEN`).
-5.  **Get Chat ID**:
-    -   Start a chat with your new bot and send "Hello".
-    -   Visit this URL in your browser: `https://api.telegram.org/bot<YOUR_TOKEN>/getUpdates`
-    -   Look for `"chat":{"id":123456789...}`. That number is your `TELEGRAM_CHAT_ID`.
+### Phase 4: WhatsApp Setup (CallMeBot)
+We use **CallMeBot**, a free API for personal WhatsApp notifications.
+1.  Add the phone number **`+34 644 10 55 84`** to your Phone Contacts. (Name it "CallMeBot").
+2.  Send this message to the new contact: `I allow callmebot to send me messages`
+3.  Wait until you receive the message "API Activated for your phone number. Your APIKEY is 123456".
+4.  Note your **API Key** and **Phone Number** (with country code, e.g., `+49...`).
 
 ### Phase 5: Local Installation & Configuration
 1.  **Clone the Repository**:
@@ -91,11 +87,6 @@ Follow these steps to get the system running in about 20-30 minutes.
 
 2.  **Install Dependencies**:
     ```bash
-    # (Optional) Create a virtual environment
-    python -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-    # Install requirements
     pip install -r requirements.txt
     ```
 
@@ -104,62 +95,32 @@ Follow these steps to get the system running in about 20-30 minutes.
         ```bash
         cp .env.example .env
         ```
-    -   Open `.env` and fill in the keys you generated above:
+    -   Open `.env` and fill in your keys:
         ```ini
-        GOOGLE_API_KEY=your_api_key_here
-        GOOGLE_CX=your_cx_id_here
-        TELEGRAM_BOT_TOKEN=your_bot_token_here
-        TELEGRAM_CHAT_ID=your_chat_id_here
+        GOOGLE_API_KEY=...
+        GOOGLE_CX=...
+        WHATSAPP_API_KEY=...       # From CallMeBot
+        WHATSAPP_PHONE_NUMBER=...  # e.g. +49123456789 (your number)
         ```
 
 4.  **Customize Your Profile**:
     -   Open `src/profile.yaml`.
-    -   Update **target_roles**, **skills**, and **locations** to match your preferences.
-    -   *Tip: The system uses these to generate search queries and score jobs.*
+    -   Update **target_roles**, **skills**, and **locations**.
 
 ---
 
 ## 🏃 Usage
-
-### Run Manually
-To perform a one-time scan:
 ```bash
 python -m src.main
 ```
-You should see output indicating:
-1.  Jobs being fetched.
-2.  Jobs being saved to Google Sheets.
-3.  A notification sent to Telegram.
 
-### 🧪 Run Tests
-To verify the scoring logic works as expected:
-```bash
-python -m unittest tests/test_logic.py
-```
-
----
-
-## 🤖 Automation (GitHub Actions)
-
-To have this run automatically every day:
-
-1.  Push your code to your GitHub repository.
-2.  Go to **Settings > Secrets and variables > Actions**.
-3.  Add the following **Repository Secrets**:
-    -   `GOOGLE_API_KEY`
-    -   `GOOGLE_CX`
-    -   `TELEGRAM_BOT_TOKEN`
-    -   `TELEGRAM_CHAT_ID`
-    -   `GOOGLE_CREDENTIALS_JSON` -> **Paste the entire content** of your `credentials.json` file here.
-4.  The workflow is configured in `.github/workflows/daily_job_scan.yml` to run daily at **08:00 UTC**.
-
----
-
-## ❓ Troubleshooting
-
--   **"Spreadsheet not found"**: Ensure the generic `SPREADSHEET_NAME` in `src/config.py` (which defaults to "Job Application Tracker") matches your actual sheet name exactly, OR rename your sheet to match.
--   **"Quota Exceeded"**: The Google Custom Search API specific free tier allows 100 queries/day. If you have many combinations in `profile.yaml`, you might hit this. Reduce the number of targeted locations or sites if needed.
--   **No Telegram Message**: Ensure you have started a conversation with your bot first. Bots cannot initiate conversations with users who haven't messaged them.
+##  Automation (GitHub Actions)
+1.  Push code to GitHub.
+2.  Add **Repository Secrets**:
+    -   `GOOGLE_API_KEY`, `GOOGLE_CX`
+    -   `WHATSAPP_API_KEY`, `WHATSAPP_PHONE_NUMBER`
+    -   `GOOGLE_CREDENTIALS_JSON`
+3.  Runs daily at **08:00 UTC**.
 
 ---
 

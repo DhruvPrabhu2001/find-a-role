@@ -19,8 +19,8 @@ class Config:
     # API Keys
     GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
     GOOGLE_CX = os.getenv("GOOGLE_CX")
-    TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-    TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+    WHATSAPP_API_KEY = os.getenv("WHATSAPP_API_KEY") # CallMeBot API Key
+    WHATSAPP_PHONE_NUMBER = os.getenv("WHATSAPP_PHONE_NUMBER") # With Country Code
     
     # Google Sheets
     GOOGLE_SHEETS_CREDENTIALS_FILE = "credentials.json"
