@@ -1,0 +1,69 @@
+# User Profile Configuration
+# This file controls the search queries and scoring.
+
+name: "Dhruv"
+
+# Job Titles to target (Positive match)
+# The system will boost scores for these
+target_roles:
+  - Junior Backend Engineer
+  - Junior Software Engineer
+  - Associate Software Engineer
+  - Java Developer
+  - Backend Developer
+
+# Keywords to avoid in titles (Negative match)
+# Jobs with these words in the title will be heavily penalized (or filtered out)
+avoid_roles:
+  - Senior
+  - Lead
+  - Principal
+  - Architect
+  - Manager
+  - Head of
+  - Staff
+
+# Skills & Technologies (Keywords)
+# Used for both Search Queries and Scoring
+# Higher weight = more important for scoring
+skills:
+  Java: 10
+  Spring Boot: 10
+  REST API: 5
+  Hibernate: 5
+  Microservices: 5
+  AWS: 5
+  SQL: 5
+
+# Locations to target
+# Format: "LocationName": Weight
+locations:
+  Germany: 10
+  Berlin: 10
+  Munich: 10
+  Hamburg: 10
+  Frankfurt: 10
+  Remote: 15
+  India: 5
+
+# Search Query Configuration
+# Sites to search specifically
+search_sites:
+  - site:linkedin.com/jobs/view
+  - site:stepstone.de
+  - site:indeed.de
+  - site:naukri.com
+  - site:wellfound.com/jobs
+
+# Experience Level Keywords (for search query)
+experience_levels:
+  - "Junior"
+  - "Associate"
+  - "0-2 years"
+  - "Entry Level"
+
+# Visa / Sponsorship
+visa_keywords:
+  - "Visa sponsorship"
+  - "Relocation"
+  - "Visa support"
