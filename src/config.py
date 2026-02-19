@@ -19,12 +19,6 @@ class Config:
     # API Keys
     GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
     GOOGLE_CX = os.getenv("GOOGLE_CX")
-    WHATSAPP_API_KEY = os.getenv("WHATSAPP_API_KEY") # CallMeBot API Key
-    WHATSAPP_PHONE_NUMBER = os.getenv("WHATSAPP_PHONE_NUMBER") # With Country Code
-    
-    # Google Sheets
-    GOOGLE_SHEETS_CREDENTIALS_FILE = "credentials.json"
-    SPREADSHEET_NAME = "Job Application Tracker"
     
     # --- Dynamic Configuration from YAML ---
     
@@ -45,10 +39,6 @@ class Config:
     # OR better: (location:Berlin OR location:Munich OR location:Germany)
     
     _loc_filter = " OR ".join([f'location:"{loc}"' for loc in _locations.keys()])
-    
-    # Construct single powerful query? Google limits to 32 words often.
-    # Better to split. 
-    # Let's split by "Germany" VS "India" context if clear, otherwise just 1-2 generic queries.
     
     # Simple approach: Create one query with big OR for locations
     if _loc_filter:

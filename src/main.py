@@ -1,6 +1,5 @@
 from src.job_fetcher import JobFetcher
-from src.storage_manager import StorageManager
-from src.notifier import Notifier
+from src.report_generator import ReportGenerator
 import sys
 
 def main():
@@ -9,29 +8,18 @@ def main():
     try:
         # Initialize components
         fetcher = JobFetcher()
-        storage = StorageManager()
-        notifier = Notifier()
-        
-        # Ensure sheet headers exist
-        storage.ensure_headers()
+        reporter = ReportGenerator("jobs.html")
         
         # 1. Fetch Jobs
         print("Fetching jobs...")
         jobs = fetcher.fetch_jobs()
         print(f"Fetched {len(jobs)} jobs.")
         
-        # 2. Save to Sheet & Deduplicate
-        print("Saving to Google Sheets...")
-        new_jobs = storage.save_jobs(jobs)
+        # 2. Generate Report (One file to check)
+        print("Generating report...")
+        reporter.generate_report(jobs)
         
-        # 3. Notify if new jobs found
-        if new_jobs:
-            print(f"Sending notification for {len(new_jobs)} new jobs...")
-            notifier.send_daily_summary(new_jobs)
-        else:
-            print("No new jobs to notify.")
-            
-        print("Job scan completed successfully.")
+        print("Job scan completed successfully. Open 'jobs.html' to see results.")
         
     except Exception as e:
         print(f"Critical Error: {e}")

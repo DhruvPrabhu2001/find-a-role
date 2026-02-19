@@ -1,9 +1,9 @@
 google-api-python-client
-gspread
-oauth2client
-python-telegram-bot
 python-dotenv
 requests
+beautifulsoup4
+pytest
+PyYAML
 beautifulsoup4
 pytest
 PyYAML
